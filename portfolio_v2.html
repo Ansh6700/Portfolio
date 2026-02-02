@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansh Thakur - Game Programmer Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --text: #cbd5e1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark) 0%, #1e293b 50%, var(--darker) 100%);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 1.5rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -200px;
+            left: -200px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .btn {
+            padding: 0.95rem 2rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transition: left 0.3s ease;
+        }
+
+        .btn:hover {
+            color: var(--darker);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn:hover::before {
+            left: 0;
+        }
+
+        .btn.secondary {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn.secondary::before {
+            background: var(--secondary);
+        }
+
+        /* Section Styles */
+        section {
+            min-height: 100vh;
+            padding: 6rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        /* About Section */
+        #about {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .about-text p {
+            color: rgba(203, 213, 225, 0.9);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .skill-item {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-item:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .skill-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .skill-item p {
+            font-size: 0.95rem;
+            color: rgba(203, 213, 225, 0.8);
+        }
+
+        /* Projects Section */
+        #projects {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            transform: translateY(-10px);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15));
+            padding: 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .project-header h3 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-meta {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .project-body {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-desc {
+            margin-bottom: 1.5rem;
+            color: rgba(203, 213, 225, 0.9);
+        }
+
+        .project-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .project-features strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-features ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .project-features li {
+            color: rgba(203, 213, 225, 0.8);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .project-features li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: auto;
+        }
+
+        .tech-tag {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: var(--primary);
+        }
+
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
+            text-align: center;
+        }
+
+        .contact-content h3 {
+            font-size: 2rem;
+            margin: 2rem 0;
+            color: var(--light);
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .contact-link:hover {
+            background: var(--primary);
+            color: var(--darker);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-box {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            color: rgba(203, 213, 225, 0.6);
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Ansh</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Game Programmer</h1>
+            <p>Crafting engaging gameplay mechanics, intelligent AI systems, and immersive experiences</p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn">Explore My Work</a>
+                <a href="#contact" class="btn secondary">Get In Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor">
+                <circle cx="15" cy="15" r="14" stroke="currentColor" stroke-width="2" fill="none"/>
+                <path d="M15 8V16M12 13L15 16L18 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p class="section-subtitle">Computer Science Student at Chitkara University</p>
+            
+            <div class="about-grid">
+                <div>
+                    <div class="about-text">
+                        <h3>Who I Am</h3>
+                        <p>I'm a passionate game programmer specializing in gameplay systems, AI development, and cross-platform optimization. With hands-on experience in competitive game jams and collaborative projects, I'm committed to delivering high-quality, engaging gaming experiences.</p>
+                        
+                        <h3>My Approach</h3>
+                        <p>I believe in clean code architecture, iterative design, and player-first development. Whether building complex AI systems or optimizing performance, I focus on creating games that captivate and engage players.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="color: var(--accent);">Core Competencies</h3>
+                    <div class="skills-container">
+                        <div class="skill-item">
+                            <h4>🎮 Game Engines</h4>
+                            <p>Unity (Proficient), Unreal Engine 5 (Learning)</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>💻 Programming</h4>
+                            <p>C#, C++, JavaScript, HTML5, CSS3</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>🤖 AI Systems</h4>
+                            <p>State Machines, Behavior Trees, Pathfinding</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>⚙️ Systems</h4>
+                            <p>Combat, Physics, UI, Performance Optimization</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>🛠️ Tools</h4>
+                            <p>Git/GitHub, VS Code, Blender, Visual Studio</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>📱 Platforms</h4>
+                            <p>PC, Android, Web, Mobile-Optimized</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>⚛️ Frontend & Web</h4>
+                            <p>React, JavaScript, HTML5, CSS3, Three.js</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>🎨 UI/UX Design</h4>
+                            <p>Responsive Design, Animations, Interactive Effects</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <p class="section-subtitle">Games and applications I've developed</p>
+            
+            <div class="projects-grid">
+                <!-- Monster Isle -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-meta">🎯 Game Project</div>
+                        <h3>Monster Isle</h3>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-desc">A full-featured 3D action-adventure game with advanced combat systems and intelligent enemy AI.</p>
+                        <div class="project-features">
+                            <strong>Key Features:</strong>
+                            <ul>
+                                <li>Combat system with attack combos & dodge mechanics</li>
+                                <li>Enemy AI using state machines</li>
+                                <li>Scoring system with combo multipliers</li>
+                                <li>Optimized 60 FPS performance</li>
+                            </ul>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Unity</span>
+                            <span class="tech-tag">C#</span>
+                            <span class="tech-tag">3D</span>
+                            <span class="tech-tag">AI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Worm Shooter -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-meta">🎮 Mobile Game</div>
+                        <h3>Worm Shooter</h3>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-desc">Mobile-optimized 2D shooter-platformer with progressive difficulty and advanced optimization techniques.</p>
+                        <div class="project-features">
+                            <strong>Key Features:</strong>
+                            <ul>
+                                <li>Multi-level structure with increasing complexity</li>
+                                <li>Sprite animations & particle effects</li>
+                                <li>Object pooling & resource management</li>
+                                <li>Save/load game state system</li>
+                            </ul>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Unity</span>
+                            <span class="tech-tag">Android</span>
+                            <span class="tech-tag">2D</span>
+                            <span class="tech-tag">Mobile</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exam Proctoring -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-meta">💼 Hackathon Project</div>
+                        <h3>Exam Proctoring System</h3>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-desc">Web-based exam proctoring system developed during HackIndia 2025 in a collaborative team environment.</p>
+                        <div class="project-features">
+                            <strong>Key Features:</strong>
+                            <ul>
+                                <li>Real-time user verification</li>
+                                <li>Comprehensive exam management</li>
+                                <li>Secure test delivery platform</li>
+                                <li>Team collaboration workflow</li>
+                            </ul>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Web</span>
+                            <span class="tech-tag">Full Stack</span>
+                            <span class="tech-tag">Hackathon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Let's Connect</h2>
+            <p class="section-subtitle">Ready to collaborate on your next project</p>
+            
+            <div class="contact-content">
+                <h3>I'd love to hear from you. Get in touch!</h3>
+                <div class="contact-links">
+                    <a href="mailto:anshr8080@gmail.com" class="contact-link">
+                        <span>📧</span> anshr8080@gmail.com
+                    </a>
+                    <a href="https://github.com/Ansh6700" target="_blank" class="contact-link">
+                        <span>🐙</span> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/ansh-thakur-48065831b/" target="_blank" class="contact-link">
+                        <span>💼</span> LinkedIn
+                    </a>
+                    <a href="tel:+917497875705" class="contact-link">
+                        <span>📱</span> +91 7497875705
+                    </a>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">3-4</div>
+                    <div class="stat-label">Projects</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Competitions</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">Fresher</div>
+                    <div class="stat-label">Level</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">60</div>
+                    <div class="stat-label">FPS Target</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Ansh Thakur - Game Programmer. All rights reserved.</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem; color: rgba(203, 213, 225, 0.5);">Crafted with passion and code 🎮</p>
+    </footer>
+
+    <script>
+        // Particle animation
+        function createParticles() {
+            const container = document.body;
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = Math.random() > 0.5 ? 'rgba(99, 102, 241, 0.5)' : 'rgba(236, 72, 153, 0.5)';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s infinite ease-in-out`;
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-item, .project-card, .stat-box').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Initialize
+        createParticles();
+    </script>
+</body>
+</html>
